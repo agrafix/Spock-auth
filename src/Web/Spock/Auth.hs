@@ -123,11 +123,11 @@ userRoute :: NoAccessHandler conn sess userId st
           -> CheckRightsFun conn sess userId st user
           -> Http.StdMethod
           -> [UserRights]
-          -> RoutePattern
+          -> T.Text
           -> (user -> SpockAction conn (VisitorSession sess userId) st ())
           -> SpockM conn (VisitorSession sess userId) st ()
 userRoute noAccessHandler loadUser checkRights reqTy requiredRights route action =
-    addroute reqTy route $
+    defRoute reqTy route $
     do sessData <- readSession
        case vs_type sessData of
          GuestSession ->
